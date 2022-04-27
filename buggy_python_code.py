@@ -5,6 +5,7 @@ import cPickle
 import subprocess
 import base64
 import subprocess
+import importlib
 import flask
 
 # Input injection
@@ -34,8 +35,8 @@ class RunBinSh(object):
         return (subprocess.Popen, (('/bin/sh',),))
 
 def import_urlib_version(version):
-    exec('"import urllib%s as urllib"' % version)
-
+    urllib = importlib.import_module(f"urlib{version}")
+    
 @app.route('/')
 def index():
     module = flask.request.args.get("module")
